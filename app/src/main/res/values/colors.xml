@@ -11,4 +11,5 @@
     <color name="locationTextColor">#556799</color>
     <color name="buttonDark">#4a4a4a</color>
     <color name="errorBackground">#e85959</color>
+    <color name="dividerColor">#eaeaea</color>
 </resources>
