@@ -82,11 +82,12 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private inner class SourceListAdapterListener : SourceListAdapter.Listener {
 
         override fun onItemClicked(item: SourceModel, position: Int) {
-            Toast.makeText(this@MainActivity, "${item.name} clicked!!", Toast.LENGTH_SHORT).show()
-            val detailIntent = Intent(this@MainActivity, NewsActivity::class.java)
-//            val ijinKerjaId = item.getIjinKerja().getId()
-//            detailIntent.putExtra(IKDetailActivity.IK_ID, ijinKerjaId)
-            startActivity(detailIntent)
+            val newsIntent = Intent(this@MainActivity, NewsActivity::class.java)
+            val sourceId = item.id
+            val sourceName = item.name
+            newsIntent.putExtra(NewsActivity.EXTRA.SELECTED_SOURCE_ID, sourceId)
+            newsIntent.putExtra(NewsActivity.EXTRA.SELECTED_SOURCE_NAME, sourceName)
+            startActivity(newsIntent)
         }
 
     }

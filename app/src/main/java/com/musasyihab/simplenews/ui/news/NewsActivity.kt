@@ -1,6 +1,7 @@
 package com.musasyihab.simplenews.ui.news
 
 import android.os.Bundle
+import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -18,14 +19,22 @@ import javax.inject.Inject
 
 class NewsActivity : AppCompatActivity(), NewsContract.View {
 
+    object EXTRA {
+        const val SELECTED_SOURCE_ID: String = "SELECTED_SOURCE_ID"
+        const val SELECTED_SOURCE_NAME: String = "SELECTED_SOURCE_NAME"
+    }
+
     @Inject
     lateinit var presenter: NewsContract.Presenter
 
     private var newsListView: RecyclerView? = null
     private var loading: ProgressBar? = null
+    private var actionBar: ActionBar? = null
 
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: NewsListAdapter
+    private var selectedSourceId: String = ""
+    private var selectedSourceName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,13 +43,19 @@ class NewsActivity : AppCompatActivity(), NewsContract.View {
         presenter.attach(this)
         presenter.subscribe()
 
+        selectedSourceId = intent.getStringExtra(EXTRA.SELECTED_SOURCE_ID)
+        selectedSourceName = intent.getStringExtra(EXTRA.SELECTED_SOURCE_NAME)
+
         initView()
-        presenter.getNewsList("techcrunch", "")
+        presenter.getNewsList(selectedSourceId, "")
     }
 
     private fun initView() {
         newsListView = findViewById(R.id.news_list) as RecyclerView
         loading = findViewById(R.id.news_loading) as ProgressBar
+        actionBar = supportActionBar!!
+
+        actionBar!!.title = selectedSourceName
 
         linearLayoutManager = LinearLayoutManager(this)
         newsListView!!.layoutManager = linearLayoutManager
