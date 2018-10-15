@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffab00</color>
+    <color name="colorPrimaryDark">#c67c00</color>
+    <color name="colorAccent">#ffdd4b</color>
+    <color name="white">#FFFFFF</color>
+    <color name="backgroundColor">#F5F6F7</color>
+    <color name="degreeTextColor">#2a2a2a</color>
+    <color name="dayTextColor">#2a2a2a</color>
+    <color name="mainTextColor">#404040</color>
+    <color name="locationTextColor">#556799</color>
+    <color name="buttonDark">#4a4a4a</color>
+    <color name="errorBackground">#e85959</color>
+</resources>
