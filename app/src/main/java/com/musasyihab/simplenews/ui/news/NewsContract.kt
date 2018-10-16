@@ -12,6 +12,7 @@ class NewsContract {
     }
 
     interface Presenter: BaseContract.Presenter<NewsContract.View> {
-        fun getNewsList(id: String, keyword: String)
+        fun getNewsList(id: String)
+        fun searchNews(id: String, keyword: String)
     }
 }

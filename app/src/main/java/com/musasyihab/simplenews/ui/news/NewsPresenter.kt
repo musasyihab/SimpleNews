@@ -24,7 +24,23 @@ class NewsPresenter: NewsContract.Presenter {
         this.view = view
     }
 
-    override fun getNewsList(id: String, keyword: String) {
+    override fun getNewsList(id: String) {
+        view.showProgress(true)
+        val obs = api.getNewsList(id, Constants.PAGE_SIZE, "")
+        var subscribe = obs.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response: GetNewsModel? ->
+                    view.loadDataSuccess(response!!)
+                    view.showProgress(false)
+                }, { error ->
+                    view.showErrorMessage(error.localizedMessage)
+                    view.showProgress(false)
+                })
+
+        subscriptions.add(subscribe)
+    }
+
+    override fun searchNews(id: String, keyword: String) {
         view.showProgress(true)
         val obs = api.getNewsList(id, Constants.PAGE_SIZE, keyword)
         var subscribe = obs.subscribeOn(Schedulers.io())

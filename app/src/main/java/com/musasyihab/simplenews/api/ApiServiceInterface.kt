@@ -18,7 +18,7 @@ interface ApiServiceInterface {
     fun getSourceList(): Observable<GetSourcesModel>
 
     @GET("everything?language=en")
-    fun getNewsList(@Query(value="sources") sources: String, @Query(value="pageSize") pageSize: Int, @Query(value="query") query: String): Observable<GetNewsModel>
+    fun getNewsList(@Query(value="sources") sources: String, @Query(value="pageSize") pageSize: Int, @Query(value="q") query: String): Observable<GetNewsModel>
 
     companion object Factory {
         fun create(): ApiServiceInterface {

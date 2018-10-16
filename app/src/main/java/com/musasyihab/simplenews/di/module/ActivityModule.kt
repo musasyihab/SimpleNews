@@ -1,6 +1,8 @@
 package com.musasyihab.simplenews.di.module
 
 import android.app.Activity
+import com.musasyihab.simplenews.ui.article.ArticleContract
+import com.musasyihab.simplenews.ui.article.ArticlePresenter
 import com.musasyihab.simplenews.ui.main.MainContract
 import com.musasyihab.simplenews.ui.main.MainPresenter
 import com.musasyihab.simplenews.ui.news.NewsContract
@@ -24,6 +26,11 @@ class ActivityModule(private var activity: Activity) {
     @Provides
     fun provideNewsPresenter(): NewsContract.Presenter {
         return NewsPresenter()
+    }
+
+    @Provides
+    fun provideArticlePresenter(): ArticleContract.Presenter {
+        return ArticlePresenter()
     }
 
 }

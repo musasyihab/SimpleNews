@@ -28,6 +28,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.main.MainActivity"/>
         </activity>
+
+        <activity
+            android:label="@string/article_activity_title"
+            android:name=".ui.article.ArticleActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".ui.news.NewsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.news.NewsActivity"/>
+        </activity>
     </application>
 
 </manifest>
