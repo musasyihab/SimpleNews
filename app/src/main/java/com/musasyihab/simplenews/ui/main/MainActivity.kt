@@ -15,6 +15,7 @@ import com.musasyihab.simplenews.di.module.ActivityModule
 import com.musasyihab.simplenews.model.GetSourcesModel
 import com.musasyihab.simplenews.model.SourceModel
 import com.musasyihab.simplenews.ui.news.NewsActivity
+import com.musasyihab.simplenews.ui.view.ErrorPageView
 import java.util.*
 import javax.inject.Inject
 
@@ -23,8 +24,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     @Inject
     lateinit var presenter: MainContract.Presenter
 
-    private var sourceListView: RecyclerView? = null
-    private var loading: ProgressBar? = null
+    private lateinit var sourceListView: RecyclerView
+    private lateinit var loading: ProgressBar
+    private lateinit var errorPage: ErrorPageView
 
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: SourceListAdapter
@@ -43,20 +45,37 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private fun initView() {
         sourceListView = findViewById(R.id.source_list) as RecyclerView
         loading = findViewById(R.id.source_loading) as ProgressBar
+        errorPage = findViewById(R.id.main_error_page) as ErrorPageView
 
         linearLayoutManager = LinearLayoutManager(this)
-        sourceListView!!.layoutManager = linearLayoutManager
+        sourceListView.layoutManager = linearLayoutManager
 
         adapter = SourceListAdapter(Collections.emptyList(), this, SourceListAdapterListener())
-        sourceListView!!.adapter = adapter
+        sourceListView.adapter = adapter
 
-        sourceListView!!.visibility = View.GONE
+        sourceListView.visibility = View.GONE
+        errorPage.visibility = View.GONE
+
+        errorPage.setListener(object: ErrorPageView.OnReloadClick {
+            override fun clickReload() {
+                errorPage.visibility = View.GONE
+                presenter.getSourceList()
+            }
+        })
     }
 
     private fun loadToView(data: GetSourcesModel) {
-        sourceListView!!.visibility = View.VISIBLE
-        adapter = SourceListAdapter(data.sources, this, SourceListAdapterListener())
-        sourceListView!!.adapter = adapter
+        if (!data.sources.isEmpty()) {
+            errorPage.visibility = View.GONE
+            sourceListView.visibility = View.VISIBLE
+            adapter = SourceListAdapter(data.sources, this, SourceListAdapterListener())
+            sourceListView.adapter = adapter
+        } else {
+            errorPage.visibility = View.VISIBLE
+            errorPage.setReloadBtnVisibility(false)
+            errorPage.setErrorText(getString(R.string.empty_data))
+            sourceListView.visibility = View.GONE
+        }
     }
 
     private fun injectDependency() {
@@ -68,10 +87,15 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun showProgress(show: Boolean) {
-        loading!!.visibility = if (show) View.VISIBLE else View.GONE
+        loading.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     override fun showErrorMessage(error: String) {
+        errorPage.visibility = View.VISIBLE
+        errorPage.setErrorText(getString(R.string.error_message))
+        errorPage.setReloadBtnText(getString(R.string.reload))
+        errorPage.setReloadBtnVisibility(true)
+        sourceListView.visibility = View.GONE
         Toast.makeText(this, "showErrorMessage: "+error, Toast.LENGTH_SHORT).show()
     }
 

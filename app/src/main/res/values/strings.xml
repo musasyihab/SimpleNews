@@ -6,5 +6,8 @@
     <string name="article_activity_title">Article</string>
     <string name="loading_article">Loading article..</string>
     <string name="search_news">Search news..</string>
+    <string name="empty_data">No data found</string>
+    <string name="reload">Reload</string>
+    <string name="error_message">Ooops! Something went wrong..</string>
 
 </resources>

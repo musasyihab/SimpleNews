@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
 
+    <com.musasyihab.simplenews.ui.view.ErrorPageView
+        android:id="@+id/main_error_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <ProgressBar
         android:id="@+id/source_loading"
         android:layout_width="wrap_content"

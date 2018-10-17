@@ -24,9 +24,9 @@ class ArticleActivity : AppCompatActivity(), ArticleContract.View {
     @Inject
     lateinit var presenter: ArticleContract.Presenter
 
-    private var webView: WebView? = null
-    private var loading: LinearLayout? = null
-    private var actionBar: ActionBar? = null
+    private lateinit var webView: WebView
+    private lateinit var loading: LinearLayout
+    private lateinit var actionBar: ActionBar
 
     private var selectedArticleUrl: String = ""
     private var selectedArticleTitle: String = ""
@@ -49,11 +49,11 @@ class ArticleActivity : AppCompatActivity(), ArticleContract.View {
         loading = findViewById<LinearLayout>(R.id.article_loading)
         actionBar = supportActionBar!!
 
-        actionBar!!.title = selectedArticleTitle
+        actionBar.title = selectedArticleTitle
 
-        webView!!.loadUrl(selectedArticleUrl)
+        webView.loadUrl(selectedArticleUrl)
 
-        webView!!.webViewClient = object : WebViewClient() {
+        webView.webViewClient = object : WebViewClient() {
 
             override fun onPageFinished(view: WebView, url: String) {
                 showProgress(false)
